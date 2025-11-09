@@ -5,8 +5,14 @@ node Year {
     has year: int;
 }
 
-node Month {}
-node Day {}
+node Month {
+    has month: int;
+}
+
+node Day {
+    has day: int;
+}
+
 walker get_tasks {
     has target_day: datetime = datetime.now();
 
@@ -20,26 +26,26 @@ walker get_tasks {
     can with Life entry {
         visit [->:Year : year == self.target_day.year :->] else {
             visit here ++> Year(year=self.target_day.year);
-            report "Created Year node for " + self.target_day.year ;
+            report f"Created Year node for {self.target_day.year}" ;
         }
     }
 
     can with Year entry {
         visit [->:Month : month == self.target_day.month :->] else {
-            visit here ++> Month();
-            report "Created Month node for " + self.target_day.month ;
+            visit here ++> Month(month=self.target_day.month);
+            report f"Created Month node for {self.target_day.month}" ;
         }
     }
 
     can with Month entry {
         visit [->:Day : day == self.target_day.day :->] else {
-            visit here ++> Day();
-            report "Created Day node for " + self.target_day.day ;
+            visit here ++> Day(day=self.target_day.day);
+            report f"Created Day node for {self.target_day.day}" ;
         }
     }
 
     can with Day entry {
-        report "Found Day node for " + self.target_day.day ;
+        report f"Found Day node for {self.target_day.day}" ;
     }
 }
 
